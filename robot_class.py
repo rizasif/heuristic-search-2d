@@ -1,4 +1,4 @@
-class robot:
+class Robot:
 
     Motion = {
         'N'  : [0,1],

@@ -1,5 +1,7 @@
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
+import multiprocessing
+import matplotlib.pylab as plt
 
 class display_2d:
     'Class to display the 2d grid on matplotlib'
@@ -24,6 +26,14 @@ class display_2d:
 
         plt.show(block=False);
 
+    def plt_show(self):
+        job_for_another_core = multiprocessing.Process(target=plt.show(block=False), args=())
+        job_for_another_core.start()
+
+    def plt_draw(self):
+        job_for_another_core = multiprocessing.Process(target=plt.draw(), args=())
+        job_for_another_core.start()
+
     def addCustomPoint(self, point, marker, markerSize):
         self.ax.plot(point[0] - 0.5, point[1] - 0.5, marker, markersize=markerSize);
         plt.draw()
@@ -31,7 +41,7 @@ class display_2d:
 
     def addPoint(self, point):
         self.ax.plot(point[0] - 0.5, point[1] - 0.5, 'rs', markersize=15);
-        plt.draw()
+        plt.draw();
         plt.show(block=False);
 
     def addSubPoint(self, point):
@@ -39,10 +49,11 @@ class display_2d:
         plt.draw()
         plt.show(block=False);
 
-    def addIslandPoint(self, point):
-        self.ax.plot(point[0] - 0.5, point[1] - 0.5, 'g^', markersize=15);
-        plt.draw()
-        plt.show(block=False);
+    def addIslandPoints(self, islands):
+        for point in islands:
+            self.ax.plot(point[0] - 0.5, point[1] - 0.5, 'g^', markersize=15);
+            plt.draw()
+            plt.show(block=False);
 
     def addGoalPoint(self, point):
         self.ax.plot(point[0] - 0.5, point[1] - 0.5, 'bs', markersize=15);
