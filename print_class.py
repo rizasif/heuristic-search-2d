@@ -5,7 +5,7 @@ class PrintClass:
     file = None;
 
     def __init__(self, file_name):
-        self.file = open(file_name + ".txt", "wb")
+        self.file = open("Thread-" + str(file_name) + ".txt", "wb")
 
     def writeToFile(self, data):
         now = datetime.now()

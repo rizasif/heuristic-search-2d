@@ -14,6 +14,7 @@ class pnba (Algorithm):
     #Static
     M = [];
     L = 2000;
+
     solution_found = False;
 
     printfile = None;
@@ -138,17 +139,17 @@ class pnba (Algorithm):
         #pnba.Dsp.addPoint(self.start);
         #pnba.Dsp.addGoalPoint(self.goal);
         self.printfile.writeToFile(self.start);
+        pnba.solution_found = False;
         MyThread.threadLock.release();
         ##pnba.Dsp.addIslandPoints(self.Islands);
         ##pnba.Dsp.addObstaclePoints(self.obstacle);
 
-        pnba.solution_found = False;
 
         # step1
         self.start[2] = self.Heur.getHeuristic(self.start);
         self.OPEN1.append(self.start);
 
-        while(1):
+        while(not pnba.solution_found):
             if (self.isOpenEmpty()):
                 print("OPEN is empty");
                 pnba.solution_found = False;
@@ -161,6 +162,9 @@ class pnba (Algorithm):
                 break;
             elif(t == pnba.SOLUTION_FOUND):
                 print "SOLUTION_FOUND by: ", self.ThreadID
+                MyThread.threadLock.acquire();
+                pnba.solution_found = True;
+                MyThread.threadLock.release();
                 break;
             elif(t == pnba.DISCOVERED):
                 continue;
@@ -212,7 +216,7 @@ class MyThread(threading.Thread):
         self.name = name
 
     def setParams(self, boundry, start, goal, obstacle):
-        self.Algo = pnba(boundry,start,goal, obstacle, self.name);
+        self.Algo = pnba(boundry,start,goal, obstacle, self.threadID);
 
     def run(self):
         self.Algo.run();
@@ -224,7 +228,7 @@ def main():
 
     Boundry = [[0, 0], [20, 20]];
 
-    start = [0, 0, 0, 0];  # x,y,F,g
+    start = [3, 0, 0, 0];  # x,y,F,g
     goal = [20, 20, 0, 20];
 
     obstacle = [

@@ -40,7 +40,9 @@ class EucliHeur:
 
     def getMinH(self, n):
         idist = 2000;
+        print "getiing min H"
         for i in self.Islands:
             if (self.getDistance(n, i) < idist):
                 idist = self.getDistance(n, i) + self.getDistance(i, self.Goal);
+                #idist = self.getDistance(self.Goal,i);
         return idist;
