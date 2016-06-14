@@ -290,8 +290,8 @@ def main():
         sortList(OPEN1);
         sortList(OPEN2);
         Dsp.addPoint(n);
-        print(CLOSED1);
-        print(CLOSED2);
+        print(OPEN1);
+        print(OPEN2);
 
     if (solutionfound):
         print("Solution Found");
@@ -299,6 +299,7 @@ def main():
         print("Solution NOT Found");
 
     Dsp.BlockGraph();
+    #Egraph redmine
 
 
 if __name__ == "__main__":

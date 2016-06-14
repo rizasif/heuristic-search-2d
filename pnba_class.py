@@ -40,8 +40,7 @@ class pnba (Algorithm):
         self.start = start;  # x,y,F,g
         self.goal = goal;
 
-        #self.Islands = [[9, 15], [15, 17]];
-        self.Islands=[[]];
+        self.Islands=[[]];  #Islands have no use in this algorithm
 
         self.obstacle = obstacle;
 

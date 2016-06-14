@@ -6,7 +6,6 @@ from euclidian_heuristic import EucliHeur;
 class chakra (Algorithm):
 
     Dsp = [];
-    Bot = [];
     Heur = [];
 
     def __init__(self):
@@ -20,7 +19,7 @@ class chakra (Algorithm):
         self.start = [0, 0, 0, 0];  # x,y,F,g
         self.goal = [20, 20, 0, 20];
 
-        self.Islands = [[9, 15], [15,17]];
+        self.Islands = [[9, 15], [15,17]];  #Identify islands here
 
         self.obstacle = [
             [12, 12], [11, 13], [10, 14], [13, 11], [14, 10],
@@ -31,7 +30,6 @@ class chakra (Algorithm):
 
         # Riz Objects
         self.Dsp = display_2d(self.Boundry);
-        self.Bot = Robot(self.Boundry, self.start);
         self.Heur = EucliHeur(self.start, self.goal, self.obstacle, self.Islands);
 
     def getNext(self):
@@ -176,10 +174,10 @@ def main():
         # step6
         if (CONT == 2 or alg.isIsland(n)):
             for s in succ:
-                inCL1, s = alg.getFromList(s, alg.CLOSED1);
-                inCL2, s = alg.getFromList(s, alg.CLOSED2);
-                inOP1, s = alg.getFromList(s, alg.OPEN1);
-                inOP2, s = alg.getFromList(s, alg.OPEN2);
+                inCL1, r = alg.getFromList(s, alg.CLOSED1);
+                inCL2, r = alg.getFromList(s, alg.CLOSED2);
+                inOP1, r = alg.getFromList(s, alg.OPEN1);
+                inOP2, r = alg.getFromList(s, alg.OPEN2);
 
                 # 6.1
                 if (not inCL1 and not inCL2 and not inOP1 and not inOP2):
@@ -211,15 +209,16 @@ def main():
         # step7
         elif (CONT == 1 or not alg.isIsland(n)):
             for s in succ:
-                inCL1, s = alg.getFromList(s, alg.CLOSED1);
-                inCL2, s = alg.getFromList(s, alg.CLOSED2);
-                inOP1, s = alg.getFromList(s, alg.OPEN1);
-                inOP2, s = alg.getFromList(s, alg.OPEN2);
+                inCL1, r = alg.getFromList(s, alg.CLOSED1);
+                inCL2, r = alg.getFromList(s, alg.CLOSED2);
+                inOP1, r = alg.getFromList(s, alg.OPEN1);
+                inOP2, r = alg.getFromList(s, alg.OPEN2);
 
                 # 7.1
                 if (not inCL1 and not inCL2 and not inOP1 and not inOP2):
                     print("7: Not in any list");
-                    s[3] = alg.Heur.getFixedCost();
+                    #s[3] = alg.Heur.getFixedCost();
+                    s[3] = 1;
                     d = alg.Heur.getMinH(s) - alg.Heur.getHeuristic(s);
                     if (d > 0):
                         s[2] = s[3] + alg.Heur.getMinH(s);
@@ -254,8 +253,8 @@ def main():
         alg.sortList(alg.OPEN1);
         alg.sortList(alg.OPEN2);
         alg.Dsp.addPoint(n);
-        print(alg.CLOSED1);
-        print(alg.CLOSED2);
+        print(alg.OPEN1);
+        print(alg.OPEN2);
 
     if (solutionfound):
         print("Solution Found");
